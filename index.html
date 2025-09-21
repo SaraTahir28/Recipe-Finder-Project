@@ -3,9 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Lets Find you some Recipes.</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+    <h1>Recipe Search</h1>
+    <input id = "ingredient" placeholder="search by ingredients"> 
+    <select id = "diet">
+        <option value="" selected>Select diet</option>
+        <option value="balanced">Balanced</option>
+        <option value="high-protein">High Protein</option>
+        <option value="low-carb">Low Carb</option>
+        <option value="low-fat">Low Fat</option>
+        <option value="gluten-free">gluten-free</option>
+    </select>
+    <button id="searchBtn">search</search></button>
+
+    <input id="filterBox" placeholder="Filter results">
+    <h2>Results</h2>
+    <div id="results"></div>
+    <h2>Favorites</h2>
+    <div id="favorites"></div>
+    <script src="script.js"></script>
 </body>
 </html>

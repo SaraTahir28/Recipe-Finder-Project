@@ -1,0 +1,23 @@
+Goal: Fetch recipes from your backend and display them as cards in the resultsDiv.
+
+Guided steps/questions:
+
+Fetching the data
+
+You already have your fetch working.
+
+After getting the JSON, how will you store the results in your results array?
+
+Creating a card function
+
+How would you write a createRecipeCard(recipe) function that returns a div element with:
+
+Recipe name (p)
+
+Image (img)
+
+Appending to the DOM
+
+How will you loop over results and append each card to resultsDiv?
+
+Don’t forget: what should you do to resultsDiv before adding new cards to avoid stacking old results?

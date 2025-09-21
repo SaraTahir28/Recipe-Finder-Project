@@ -1,0 +1,133 @@
+HTML (index.html)
+
+ Add boilerplate (! + Tab in VS Code)
+
+ <title>Recipe Search App</title>
+
+ Link style.css in <head>
+
+ Inside <body>:
+
+ <h1>Recipe Search</h1>
+
+ Input for main search: <input id="ingredient" placeholder="Search by ingredient">
+
+ Dropdown for diet filter: <select id="diet"> with options (balanced, high-protein, low-carb, low-fat, etc.)
+
+ <button id="searchBtn">Search</button>
+
+ Add a second filter input (for live filtering results): <input id="filterBox" placeholder="Filter results">
+
+ Section for results: <h2>Results</h2><div id="results"></div>
+
+ Section for favorites: <h2>Favorites</h2><div id="favorites"></div>
+
+ Add <script src="script.js"></script> before </body>
+
+✅ Test: Open index.html in browser → should see heading, search bar, dropdown, filter box, results/favorites sections.
+
+🎨 CSS (style.css)
+
+ Style body → font, margin, padding, light background
+
+ h1, h2 → centered, spacing
+
+ #results, #favorites → display: flex; flex-wrap: wrap; gap: 10px;
+
+ .recipe → border, padding, width, background color, rounded corners
+
+ Buttons → padding, hover effect
+
+✅ Test: Reload → page looks cleaner.
+
+⚡ JS Setup (script.js)
+
+ Declare API credentials at top:
+
+const appId = "YOUR_APP_ID";
+const appKey = "YOUR_APP_KEY";
+
+
+ Select button:
+
+const searchBtn = document.getElementById("searchBtn");
+
+
+ Add event listener:
+
+searchBtn.addEventListener("click", () => {
+  console.log("Search clicked");
+});
+
+
+✅ Test: Open browser console → click button → logs “Search clicked”.
+
+🌐 Fetch API
+
+ Inside event listener:
+
+ Get ingredient & diet values from input/select
+
+ Build URL with template literals:
+
+const url = `https://api.edamam.com/search?q=${ingredient}&app_id=${appId}&app_key=${appKey}&diet=${diet}`;
+
+
+ Fetch and await response.json()
+
+ console.log(data)
+
+✅ Test: Search “chicken” → see API results in console.
+
+📋 Display Results
+
+ Create function displayResults(recipes)
+
+ Clear #results each time
+
+ Loop over recipes
+
+ For each recipe:
+
+ Create <div class="recipe">
+
+ Add inner HTML with recipe label, image, link, and “Add to Favorites” button
+
+ Append to #results
+
+✅ Test: Search → recipe cards show up in page.
+
+🔎 Live Filter (on results)
+
+ Add event listener to #filterBox
+
+ On input, filter recipes array by label text
+
+ Call displayResults(filteredRecipes)
+
+✅ Test: Search → type in filter box → results narrow down live.
+
+⭐ Favorites
+
+ Create addFavorite(recipe) function
+
+ Append favorite card into #favorites
+
+ Store favorites in localStorage
+
+localStorage.setItem("favorites", JSON.stringify(favorites));
+
+
+ On page load, read favorites from localStorage and render them
+
+✅ Test: Click “Add to Favorites” → recipe shows in Favorites section → refresh page → still there.
+
+🎉 Stretch Goals
+
+ Add “Remove from Favorites” button
+
+ Show a “Loading…” message while fetching
+
+ Handle errors (try/catch) → display error message on page
+
+ Add pagination (load more results)
