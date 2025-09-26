@@ -8,23 +8,42 @@
 </head>
 
 <body>
-    <h1>Recipe Search</h1>
-    <input id = "ingredient" placeholder="search by ingredients"> 
-    <select id = "diet">
-        <option value="" selected>Select diet</option>
-        <option value="balanced">Balanced</option>
-        <option value="high-protein">High Protein</option>
-        <option value="low-carb">Low Carb</option>
-        <option value="low-fat">Low Fat</option>
-        <option value="gluten-free">gluten-free</option>
-    </select>
-    <button id="searchBtn">search</search></button>
-
-    <input id="filterBox" placeholder="Filter results">
+    <h1>Recipilicious- where every recipe is delicious!</h1>
+    <div class="controls">
+        <input id = "ingredient" placeholder="search by ingredients"> 
+        <select id = "diet">
+            <option value="" selected>Select diet</option>
+            <option value="balanced">Balanced</option>
+            <option value="high-protein">High Protein</option>
+            <option value="low-Carb">Low Carb</option>
+            <option value="low-fat">Low Fat</option>
+            <option value="vegetarian">Vegetarian</option>
+        </select>
+        <label for="caloriesFilter">Calories:</label>
+        <select id="caloriesFilter">
+            <option value="">-- All --</option>
+            <option value="under-1000">Under 1000</option>
+            <option value="1000-1500">1000-1500</option>
+            <option value="over-1500">Over 1500</option>
+        </select>
+        <label for="servingsFilter">Servings:</label>
+        <select id="servingsFilter">
+            <option value="">-- All --</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+        </select>
+        <button id="searchBtn">Search</button>
+        </div>
+    </div>
+    
     <h2>Results</h2>
-    <div id="results"></div>
+    <div id="results" class="recipe-grid"></div>
+    <button id="loadMoreBtn" style="display:none;">Load More</button>
     <h2>Favorites</h2>
-    <div id="favorites"></div>
+    <div id="favorites" class="recipe-grid"></div>
     <script src="script.js"></script>
+    
 </body>
 </html>
