@@ -1,4 +1,14 @@
 /* -------------------- Global Styles -------------------- */
+
+.recipe-grid{
+  background-image: url("static/recipe.jpg");
+  background-size: cover;   /* make it cover the whole page */
+  background-repeat: no-repeat; /* avoid tiling */
+  background-position: center;  /* center it */
+  min-height: 100vh;  /* ensure it fills viewport */
+  margin: 0; /* remove default body margin */
+}
+
 body {
   font-family: "Segoe UI", "Helvetica", "Trebuchet MS", sans-serif;
   background-color: #bfb5b5;
@@ -191,4 +201,25 @@ h1, h2 {
     margin: 8px 0;
   }
 }
+#app-footer {
+  background-color: #d7bbbb;
+  position: fixed;     /* stick to bottom */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f8f8;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  color: #555;
+  border-top: 1px solid #ddd;
+}
 
+#app-footer a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+#app-footer a:hover {
+  text-decoration: underline;
+}
