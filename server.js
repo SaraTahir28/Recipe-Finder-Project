@@ -17,6 +17,11 @@ app.use(cors());
 app.get('/recipes', async (req, res) => {
   const ingredient = req.query.ingredient;
   const diet = req.query.diet;
+  // Validation check for missing parameters
+  if (!ingredient || !diet) {
+    console.log(`Validation Error: ingredient="${ingredient}", diet="${diet}"`);
+    return res.status(400).json({ error: "Missing ingredient or diet parameter" });
+  }
 
   // construct API request url including diet directly
   const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${ingredient}&diet=${diet}&app_id=${process.env.App_ID}&app_key=${process.env.App_Key}`;
@@ -42,6 +47,32 @@ app.get('/recipes', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+app.get('/recipes/next', async (req, res) => {
+  const nextUrl = req.query.url;
+
+  if (!nextUrl) {
+    return res.status(400).json({ error: "Missing next page URL" });
+  }
+
+  try {
+    const response = await fetch(nextUrl, {
+      headers: {
+        "Edamam-Account-User": process.env.App_User
+      }
+    });
+
+    const text = await response.text();
+    if (response.ok) {
+      const data = JSON.parse(text);
+      res.json(data);
+    } else {
+      res.status(response.status).json({ error: text });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 //starts listening on the port
 app.listen(PORT, () => {

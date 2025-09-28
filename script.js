@@ -187,22 +187,23 @@ function renderFavorites() {
   })
 }
 
-const loadMoreBtn = document.getElementById("loadMoreBtn")
-loadMoreBtn.style.display = nextPageUrl ? "block" : "none"
 loadMoreBtn.addEventListener("click", () => {
-  if (!nextPageUrl) return
+  if (!nextPageUrl) return;
 
-  fetch(nextPageUrl)
+  const encodedUrl = encodeURIComponent(nextPageUrl);
+  const proxyUrl = `http://localhost:3000/recipes/next?url=${encodedUrl}`;
+
+  fetch(proxyUrl)
     .then(res => res.json())
     .then(data => {
-      const newRecipes = data.hits.map(hit => hit.recipe)
-      results.push(...newRecipes)
-      nextPageUrl = data._links?.next?.href || null
-      applyFilters()
-      loadMoreBtn.style.display = nextPageUrl ? "block" : "none"
+      const newRecipes = data.hits.map(hit => hit.recipe);
+      results.push(...newRecipes);
+      nextPageUrl = data._links?.next?.href || null;
+      applyFilters();
+      loadMoreBtn.style.display = nextPageUrl ? "block" : "none";
     })
-    .catch(err => console.error("Error loading more recipes:", err))
-})
+    .catch(err => console.error("Error loading more recipes:", err));
+});
 
 // Footer
 const footer = document.createElement("footer")
