@@ -8,41 +8,62 @@
 </head>
 
 <body>
-    <h1>Recipilicious - where every recipe is delicious!</h1>
-    <div class="controls">
-        <input id = "ingredient" placeholder="search by ingredients"> 
-        <select id = "diet">
-            <option value="" selected>Select diet</option>
-            <option value="balanced">Balanced</option>
-            <option value="high-protein">High Protein</option>
-            <option value="low-carb">Low-Carb</option>
-            <option value="low-Fat">Low-Fat</option>
-            <option value="High-Fibre">High-Fibre</option>
-        </select>
-        <label for="caloriesFilter">Calories:</label>
-        <select id="caloriesFilter">
-            <option value="">All</option>
-            <option value="under-1000">Under 1000</option>
-            <option value="1000-1500">1000-1500</option>
-            <option value="over-1500">Over 1500</option>
-        </select>
-        <label for="servingsFilter">Servings:</label>
-        <select id="servingsFilter">
-            <option value="">All</option>
-            <option value="2">2</option>
-            <option value="4">4</option>
-            <option value="6">6</option>
-            <option value="8">8</option>
-        </select>
-        <button id="searchBtn">Search</button>
-        </div>
-    </div>
-    
-    <h2>Enjoy choosing!!</h2>
-    <div id="results" class="recipe-grid"></div>
-    <button id="loadMoreBtn" style="display:none;">Load More</button>
-    
-    <script src="script.js"></script>
-    
+  <h1 id="main-title">Recipilicious - where every recipe is delicious!</h1>
+
+  <div class="controls" role="form" aria-labelledby="main-title">
+    <input 
+      id="ingredient" 
+      placeholder="Search by ingredients" 
+      aria-label="Ingredient input field" 
+      type="text"
+    >
+
+    <label for="diet">Diet type:</label>
+    <select id="diet" aria-label="Diet selection dropdown">
+      <option value="" selected>Select diet</option>
+      <option value="balanced">Balanced</option>
+      <option value="high-protein">High Protein</option>
+      <option value="low-carb">Low-Carb</option>
+      <option value="low-Fat">Low-Fat</option>
+      <option value="High-Fibre">High-Fibre</option>
+    </select>
+
+    <label for="caloriesFilter">Calories:</label>
+    <select id="caloriesFilter" aria-label="Calories filter">
+      <option value="">All</option>
+      <option value="under-1000">Under 1000</option>
+      <option value="1000-1500">1000-1500</option>
+      <option value="over-1500">Over 1500</option>
+    </select>
+
+    <label for="servingsFilter">Servings:</label>
+    <select id="servingsFilter" aria-label="Servings filter">
+      <option value="">All</option>
+      <option value="2">2</option>
+      <option value="4">4</option>
+      <option value="6">6</option>
+      <option value="8">8</option>
+    </select>
+
+    <button id="searchBtn" aria-label="Search recipes">Search</button>
+  </div>
+
+  <h2>Enjoy choosing!!</h2>
+
+  <div 
+    id="results" 
+    class="recipe-grid" 
+    role="region" 
+    aria-label="Search results"
+  ></div>
+
+  <button 
+    id="loadMoreBtn" 
+    style="display:none;" 
+    aria-label="Load more recipes"
+  >
+    Load More
+  </button>
+
+  <script src="script.js"></script>
 </body>
-</html>
