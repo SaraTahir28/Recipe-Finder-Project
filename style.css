@@ -1,17 +1,10 @@
 /* -------------------- Global Styles -------------------- */
 
-.recipe-grid{
-  background-image: url("static/recipe.jpg");
-  background-size: cover;   /* make it cover the whole page */
-  background-repeat: no-repeat; /* avoid tiling */
-  background-position: center;  /* center it */
-  min-height: 100vh;  /* ensure it fills viewport */
-  margin: 0; /* remove default body margin */
-}
+
 
 body {
   font-family: "Segoe UI", "Helvetica", "Trebuchet MS", sans-serif;
-  background-color: #bfb5b5;
+  background-color: #c2baba;
   margin: 0;
   padding: 20px;
   line-height: 1.6;
@@ -120,6 +113,14 @@ h1, h2 {
 }
 
 /* Info box */
+.recipe-grid{
+  background-image: url("static/recipe.jpg");
+  background-size: cover;   /* make it cover the whole page */
+  background-repeat: no-repeat; /* avoid tiling */
+  background-position: center;  /* center it */
+  min-height: 100vh;  /* ensure it fills viewport */
+  margin: 0; /* remove default body margin */
+}
 .recipe-info {
   background-color: #f9f9f9;
   padding: 10px;
@@ -145,9 +146,9 @@ h1, h2 {
 /* Link */
 .recipe-link {
   text-decoration: none;
-  color: #4CAF50;
+  color: #10b015;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .recipe-link:hover {
@@ -202,7 +203,7 @@ h1, h2 {
   }
 }
 #app-footer {
-  background-color: #d7bbbb;
+  background-color: #ebd5d5;
   position: fixed;     /* stick to bottom */
   bottom: 0;
   left: 0;
@@ -210,13 +211,14 @@ h1, h2 {
   background-color: #f8f8f8;
   text-align: center;
   padding: 10px;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
   color: #555;
   border-top: 1px solid #ddd;
 }
 
 #app-footer a {
-  color: #0077cc;
+  color: #29aa41;
   text-decoration: none;
 }
 
