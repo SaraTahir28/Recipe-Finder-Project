@@ -1,13 +1,14 @@
 /* -------------------- Global Styles -------------------- */
 
-
-
 body {
   font-family: "Segoe UI", "Helvetica", "Trebuchet MS", sans-serif;
-  background-color: #c2baba;
+  background-color: #e7d1d1;
   margin: 0;
   padding: 20px;
   line-height: 1.6;
+  min-height: 100vh;       /* ensures body fills the viewport */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Headings */
@@ -70,12 +71,22 @@ h1, h2 {
 }
 
 /* -------------------- Recipe Grid -------------------- */
+#results, #favorites-section {
+  flex: 1; /* grows to fill space between header and footer */
+}
+
 .recipe-grid {
+  background-image: url("static/recipe.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
   justify-content: center;
   padding: 20px 0;
+  padding-bottom: 120px; /* space for Load More button */
 }
 
 /* -------------------- Recipe Card -------------------- */
@@ -112,15 +123,6 @@ h1, h2 {
   min-height: 48px;
 }
 
-/* Info box */
-.recipe-grid{
-  background-image: url("static/recipe.jpg");
-  background-size: cover;   /* make it cover the whole page */
-  background-repeat: no-repeat; /* avoid tiling */
-  background-position: center;  /* center it */
-  min-height: 100vh;  /* ensure it fills viewport */
-  margin: 0; /* remove default body margin */
-}
 .recipe-info {
   background-color: #f9f9f9;
   padding: 10px;
@@ -135,7 +137,7 @@ h1, h2 {
   margin: 6px 0;
 }
 
-/* Footer */
+/* Recipe Footer */
 .recipe-footer {
   display: flex;
   justify-content: space-between;
@@ -178,6 +180,51 @@ h1, h2 {
   padding-top: 20px;
 }
 
+/* -------------------- Load More Button -------------------- */
+#loadMoreBtn {
+  display: block;       /* will toggle via JS */
+  margin: 20px auto;    /* center horizontally */
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 5;           /* ensure it sits above content */
+}
+
+#loadMoreBtn:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+/* -------------------- Footer -------------------- */
+#app-footer {
+  width: 100%;
+  background-color: #f8f8f8;
+  text-align: center;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  border-top: 1px solid #ddd;
+  margin-top: 40px; /* space above footer */
+  position: relative; /* remove fixed positioning */
+}
+
+#app-footer a {
+  color: #29aa41;
+  text-decoration: none;
+}
+
+#app-footer a:hover {
+  text-decoration: underline;
+}
+
 /* -------------------- Responsive -------------------- */
 @media (max-width: 768px) {
   .recipe {
@@ -201,27 +248,4 @@ h1, h2 {
     width: 100%;
     margin: 8px 0;
   }
-}
-#app-footer {
-  background-color: #ebd5d5;
-  position: fixed;     /* stick to bottom */
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #f8f8f8;
-  text-align: center;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #555;
-  border-top: 1px solid #ddd;
-}
-
-#app-footer a {
-  color: #29aa41;
-  text-decoration: none;
-}
-
-#app-footer a:hover {
-  text-decoration: underline;
 }

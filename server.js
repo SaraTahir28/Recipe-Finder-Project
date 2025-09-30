@@ -33,9 +33,9 @@ app.get('/recipes', async (req, res) => {
       }
     });
 
-    console.log("Status:", response.status);
-    const text = await response.text();
-    console.log("Response body:", text.slice(0, 200));
+    console.log("Status:", response.status);//response is a Fetch API Response object (what fetch() returns) and .status is an integer HTTP status code (e.g. 200, 404, 500)
+    const text = await response.text();//response.text() returns Promise ->resolves to the entire response body decoded as a string
+    console.log("Response body:", text.slice(0, 200));//prints to the browser/devtools console like status:200
 
     if (response.ok) {   //if the res is ok, sends the parsed JSON back to the frontend.
       const data = JSON.parse(text);
