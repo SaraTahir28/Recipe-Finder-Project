@@ -1,22 +1,20 @@
-let results = [] //stores current list of fetched recipes
-let favorites = []// stores recipes user has saved.
-let cachedRecipes = {} //avoids redundant API calls by storing previous results.
-let nextPageUrl = null //tracks pagination for loading more recipes.
+let results = [] // stores current list of fetched recipes
+let favorites = [] // stores recipes user has saved
+let cachedRecipes = {} // avoids redundant API calls by storing previous results
+let nextPageUrl = null // tracks pagination for loading more recipes
 let favoritesDiv = null // will create when first favorite is saved
 
-
-//connect your JavaScript to the HTML elements for user input, filters, and displaying results.
+// Connect your JavaScript to the HTML elements for user input, filters, and displaying results
 const ingredientInput = document.getElementById('ingredient')
 const dietDropDown = document.getElementById('diet')
 const caloriesFilter = document.getElementById("caloriesFilter")
 const servingsFilter = document.getElementById("servingsFilter")
 const searchBtn = document.getElementById('searchBtn')
 const resultsDiv = document.getElementById('results')
-const loadMoreBtn = document.getElementById("loadMoreBtn");
-
+const loadMoreBtn = document.getElementById("loadMoreBtn")
 
 function applyFilters() {
-  let filtered = [...results] //Makes a copy of results to apply filters without modifying the original.
+  let filtered = [...results] // Makes a copy of results to apply filters without modifying the original
 
   // Calories filter
   const calValue = caloriesFilter.value
@@ -36,7 +34,7 @@ function applyFilters() {
   }
 
   // Render filtered results
-  resultsDiv.innerHTML = ""  //Clears previous results and displays filtered ones.
+  resultsDiv.innerHTML = "" // Clears previous results and displays filtered ones
   if (filtered.length === 0) {
     resultsDiv.innerHTML = "<p>No recipes match your filters.</p>"
   } else {
@@ -45,13 +43,13 @@ function applyFilters() {
 }
 
 searchBtn.addEventListener('click', () => {
-  const ingredient = ingredientInput.value.trim() //.trim() → removes any spaces at the beg & end of text.
+  const ingredient = ingredientInput.value.trim() // .trim() removes spaces at beginning and end
   const diet = dietDropDown.value
   fetchRecipes(ingredient, diet)
 })
 
 function fetchRecipes(ingredient, diet) {
-  const queryKey = `${ingredient}_${diet}` //unique key for caching
+  const queryKey = `${ingredient}_${diet}` // unique key for caching
 
   resultsDiv.innerHTML = ""
   const loadingMessage = document.createElement("p")
@@ -67,15 +65,15 @@ function fetchRecipes(ingredient, diet) {
     return
   }
 
-  const url = `http://localhost:3000/recipes?ingredient=${ingredient}&diet=${diet}`//backend API URL
+  const url = `http://localhost:3000/recipes?ingredient=${ingredient}&diet=${diet}` // backend API URL
 
-  fetch(url)  //makes an http req to url
-    .then(res => res.json()) //.then waits for fetch promise to finish, res is res obj, res.json() reads the body of the response and parses it as JSON.
-    .then(data => {  //runs after JSON parsing is done
-      results = data.hits.map(hit => hit.recipe) //data.hits [] of results..map goes through each hit and pulls out just the recipe property.results ends up as an array of recipe objects.
-      nextPageUrl = data._links?.next?.href || null //f data._links.next.href exists, nextPageUrl will be that string (the URL for the next page of results).
-      console.log("First fetch nextPageUrl:", nextPageUrl);
-      cachedRecipes[queryKey] = results //cachedRecipes is an object being used like a dictionary/cache.it stores the results array under the key queryKey.
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      results = data.hits.map(hit => hit.recipe)
+      nextPageUrl = data._links?.next?.href || null
+      console.log("First fetch nextPageUrl:", nextPageUrl)
+      cachedRecipes[queryKey] = results
 
       applyFilters()
       loadingMessage.remove()
@@ -85,10 +83,10 @@ function fetchRecipes(ingredient, diet) {
       } else {
         results.forEach(recipe => recipeCard(recipe))
       }
-      loadMoreBtn.style.display = nextPageUrl ? "block" : "none";
-      // Reset controls after search
-      //ingredientInput.value = ""
-      //dietDropDown.value = ""
+
+      loadMoreBtn.style.display = nextPageUrl ? "block" : "none"
+
+      // Reset filters
       caloriesFilter.value = ""
       servingsFilter.value = ""
     })
@@ -102,19 +100,20 @@ function fetchRecipes(ingredient, diet) {
     })
 }
 
-function createRecipeCard(recipe, mode = "results") { //recipe obj from API, mode: defaults to "results" if not  (can also be "favorites").
+function createRecipeCard(recipe, mode = "results") {
   const card = document.createElement("div")
   card.classList.add("recipe")
 
   const image = document.createElement("img")
   image.src = recipe.images?.THUMBNAIL?.url || recipe.image
-  image.alt = recipe.label //Sets its alt attribute to recipe.label (important for accessibility).
+  image.alt = recipe.label
 
   const title = document.createElement("h3")
   title.innerText = recipe.label
 
   const infoBox = document.createElement("div")
   infoBox.classList.add("recipe-info")
+
   const calories = document.createElement("p")
   calories.innerHTML = `<strong>Calories:</strong> ${Math.round(recipe.calories)}`
   const servings = document.createElement("p")
@@ -126,20 +125,20 @@ function createRecipeCard(recipe, mode = "results") { //recipe obj from API, mod
   const footer = document.createElement("div")
   footer.classList.add("recipe-footer")
 
-  const link = document.createElement("a") // a link element
-  link.href = recipe.url  //href is the recipe’s original URL.
-  link.target = "_blank"  //target="_blank" opens it in a new tab.
-  link.innerText = "View Recipe" //Displays "View Recipe" as text.
-  link.classList.add("recipe-link") //assign css class
-  footer.appendChild(link) //Puts the link inside the footer.
+  const link = document.createElement("a")
+  link.href = recipe.url
+  link.target = "_blank"
+  link.innerText = "View Recipe"
+  link.classList.add("recipe-link")
+  footer.appendChild(link)
 
   const btn = document.createElement("button")
   if (mode === "results") {
     btn.innerText = "❤️ Save"
     btn.classList.add("save-btn")
     btn.addEventListener("click", () => {
-      if (!favorites.some(fav => fav.uri === recipe.uri)) { //check if recipe is not already in favs.
-        favorites.push(recipe) //if not adds it to favs
+      if (!favorites.some(fav => fav.uri === recipe.uri)) {
+        favorites.push(recipe)
         renderFavorites()
       }
     })
@@ -147,8 +146,8 @@ function createRecipeCard(recipe, mode = "results") { //recipe obj from API, mod
     btn.innerText = "🗑 Remove"
     btn.classList.add("save-btn")
     btn.addEventListener("click", () => {
-      favorites = favorites.filter(fav => fav.uri !== recipe.uri)//Removes this recipe from favorites using .filter(...).
-      renderFavorites() //calls renderfavorites to refresh after filtering.
+      favorites = favorites.filter(fav => fav.uri !== recipe.uri)
+      renderFavorites()
     })
   }
   footer.appendChild(btn)
@@ -161,9 +160,9 @@ function recipeCard(recipe) {
   const card = createRecipeCard(recipe, "results")
   resultsDiv.append(card)
 }
-//using both sections and div for better structural design.
+
 function renderFavorites() {
-  let favoritesSection = document.getElementById("favorites-section") //A <section> represents a standalone block of related content room for favs
+  let favoritesSection = document.getElementById("favorites-section")
   if (!favoritesSection) {
     favoritesSection = document.createElement("section")
     favoritesSection.id = "favorites-section"
@@ -171,14 +170,15 @@ function renderFavorites() {
     const heading = document.createElement("h2")
     heading.innerText = "Favorites"
 
-    favoritesDiv = document.createElement("div") //shelf for favs
+    favoritesDiv = document.createElement("div")
     favoritesDiv.id = "favorites"
     favoritesDiv.classList.add("recipe-grid")
 
     favoritesSection.appendChild(heading)
     favoritesSection.appendChild(favoritesDiv)
-    const footer = document.getElementById("app-footer");
-    document.body.insertBefore(favoritesSection, footer); 
+
+    const footer = document.getElementById("app-footer")
+    document.body.insertBefore(favoritesSection, footer)
   }
 
   favoritesDiv.innerHTML = ""
@@ -194,23 +194,23 @@ function renderFavorites() {
 }
 
 loadMoreBtn.addEventListener("click", () => {
-  if (!nextPageUrl) return;                    //Stops early if there’s no next page
+  if (!nextPageUrl) return
 
-  const encodedUrl = encodeURIComponent(nextPageUrl); //You can’t pass raw URLs inside query strings,so encoding it
-  const proxyUrl = `http://localhost:3000/recipes/next?url=${encodedUrl}`;//talking to server.js
+  const encodedUrl = encodeURIComponent(nextPageUrl)
+  const proxyUrl = `http://localhost:3000/recipes/next?url=${encodedUrl}`
 
-  fetch(proxyUrl)  //fetch returns a Promise that resolves to a Response object.
-    .then(res => res.json())  //res.json()  returns a Promise that resolves with the parsed Js {}
-    .then(data => {    //receiving the parsed data object.
-      const newRecipes = data.hits.map(hit => hit.recipe);//extract recipe object from data hits.
-      results.push(...newRecipes); //Uses the spread operator to append all elements of newRecipes into the existing results array in place. Equivalent to results = results.concat(newRecipes) but mutates the original results.
-      nextPageUrl = data._links?.next?.href || null; //controls whether there is another page to load.
-      console.log("First fetch nextPageUrl:", nextPageUrl);
-      applyFilters();
-      loadMoreBtn.style.display = nextPageUrl ? "block" : "none";
+  fetch(proxyUrl)
+    .then(res => res.json())
+    .then(data => {
+      const newRecipes = data.hits.map(hit => hit.recipe)
+      results.push(...newRecipes)
+      nextPageUrl = data._links?.next?.href || null
+      console.log("Next page nextPageUrl:", nextPageUrl)
+      applyFilters()
+      loadMoreBtn.style.display = nextPageUrl ? "block" : "none"
     })
-    .catch(err => console.error("Error loading more recipes:", err));
-});
+    .catch(err => console.error("Error loading more recipes:", err))
+})
 
 // Footer
 const footer = document.createElement("footer")
@@ -222,4 +222,3 @@ footer.innerHTML = `
   </p>
 `
 document.body.appendChild(footer)
-
