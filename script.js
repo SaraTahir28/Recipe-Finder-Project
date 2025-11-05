@@ -1,10 +1,20 @@
+// -----------------------------
+// Backend URL
+// -----------------------------
+const backendUrl = "https://recipe-app.hosting.codeyourfuture.io"; // Replace with your Coolify URL
+
+// -----------------------------
+// State
+// -----------------------------
 let results = [] // stores current list of fetched recipes
 let favorites = [] // stores recipes user has saved
-let cachedRecipes = {} // avoids redundant API calls by storing previous results
-let nextPageUrl = null // tracks pagination for loading more recipes
-let favoritesDiv = null // will create when first favorite is saved
+let cachedRecipes = {} // avoids redundant API calls
+let nextPageUrl = null // tracks pagination
+let favoritesDiv = null // created when first favorite is saved
 
-// Connect your JavaScript to the HTML elements for user input, filters, and displaying results
+// -----------------------------
+// DOM Elements
+// -----------------------------
 const ingredientInput = document.getElementById('ingredient')
 const dietDropDown = document.getElementById('diet')
 const caloriesFilter = document.getElementById("caloriesFilter")
@@ -13,8 +23,11 @@ const searchBtn = document.getElementById('searchBtn')
 const resultsDiv = document.getElementById('results')
 const loadMoreBtn = document.getElementById("loadMoreBtn")
 
+// -----------------------------
+// Filters
+// -----------------------------
 function applyFilters() {
-  let filtered = [...results] // Makes a copy of results to apply filters without modifying the original
+  let filtered = [...results]
 
   // Calories filter
   const calValue = caloriesFilter.value
@@ -34,7 +47,7 @@ function applyFilters() {
   }
 
   // Render filtered results
-  resultsDiv.innerHTML = "" // Clears previous results and displays filtered ones
+  resultsDiv.innerHTML = ""
   if (filtered.length === 0) {
     resultsDiv.innerHTML = "<p>No recipes match your filters.</p>"
   } else {
@@ -42,22 +55,27 @@ function applyFilters() {
   }
 }
 
+// -----------------------------
+// Search Button
+// -----------------------------
 searchBtn.addEventListener('click', () => {
-  const ingredient = ingredientInput.value.trim() // .trim() removes spaces at beginning and end
+  const ingredient = ingredientInput.value.trim()
   const diet = dietDropDown.value
   fetchRecipes(ingredient, diet)
 })
 
+// -----------------------------
+// Fetch Recipes
+// -----------------------------
 function fetchRecipes(ingredient, diet) {
-  const queryKey = `${ingredient}_${diet}` // unique key for caching
-
+  const queryKey = `${ingredient}_${diet}`
   resultsDiv.innerHTML = ""
   const loadingMessage = document.createElement("p")
   loadingMessage.textContent = "Loading deliciousness..."
   loadingMessage.id = "loading-message"
   resultsDiv.appendChild(loadingMessage)
 
-  // Check cache first
+  // Check cache
   if (cachedRecipes[queryKey]) {
     results = cachedRecipes[queryKey]
     applyFilters()
@@ -65,14 +83,13 @@ function fetchRecipes(ingredient, diet) {
     return
   }
 
-  const url = `http://localhost:3000/recipes?ingredient=${ingredient}&diet=${diet}` // backend API URL
+  const url = `${backendUrl}/recipes?ingredient=${ingredient}&diet=${diet}` // UPDATED
 
   fetch(url)
     .then(res => res.json())
     .then(data => {
       results = data.hits.map(hit => hit.recipe)
       nextPageUrl = data._links?.next?.href || null
-      console.log("First fetch nextPageUrl:", nextPageUrl)
       cachedRecipes[queryKey] = results
 
       applyFilters()
@@ -80,13 +97,9 @@ function fetchRecipes(ingredient, diet) {
 
       if (results.length === 0) {
         resultsDiv.innerHTML = "<p>Sorry, we have no deliciousness for you :(</p>"
-      } else {
-        results.forEach(recipe => recipeCard(recipe))
       }
 
       loadMoreBtn.style.display = nextPageUrl ? "block" : "none"
-
-      // Reset filters
       caloriesFilter.value = ""
       servingsFilter.value = ""
     })
@@ -100,6 +113,9 @@ function fetchRecipes(ingredient, diet) {
     })
 }
 
+// -----------------------------
+// Create Recipe Card
+// -----------------------------
 function createRecipeCard(recipe, mode = "results") {
   const card = document.createElement("div")
   card.classList.add("recipe")
@@ -161,6 +177,9 @@ function recipeCard(recipe) {
   resultsDiv.append(card)
 }
 
+// -----------------------------
+// Render Favorites
+// -----------------------------
 function renderFavorites() {
   let favoritesSection = document.getElementById("favorites-section")
   if (!favoritesSection) {
@@ -193,11 +212,14 @@ function renderFavorites() {
   })
 }
 
+// -----------------------------
+// Load More Recipes
+// -----------------------------
 loadMoreBtn.addEventListener("click", () => {
   if (!nextPageUrl) return
 
   const encodedUrl = encodeURIComponent(nextPageUrl)
-  const proxyUrl = `http://localhost:3000/recipes/next?url=${encodedUrl}`
+  const proxyUrl = `${backendUrl}/recipes/next?url=${encodedUrl}` // UPDATED
 
   fetch(proxyUrl)
     .then(res => res.json())
@@ -205,14 +227,15 @@ loadMoreBtn.addEventListener("click", () => {
       const newRecipes = data.hits.map(hit => hit.recipe)
       results.push(...newRecipes)
       nextPageUrl = data._links?.next?.href || null
-      console.log("Next page nextPageUrl:", nextPageUrl)
       applyFilters()
       loadMoreBtn.style.display = nextPageUrl ? "block" : "none"
     })
     .catch(err => console.error("Error loading more recipes:", err))
 })
 
+// -----------------------------
 // Footer
+// -----------------------------
 const footer = document.createElement("footer")
 footer.id = "app-footer"
 footer.innerHTML = `
