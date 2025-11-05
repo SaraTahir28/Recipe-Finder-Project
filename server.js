@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 // Enable CORS for frontend
 app.use(cors({
-  origin: 'https://your-netlify-app.netlify.app', // replace with your Netlify URL
+  origin: 'https://st-recipefinder.netlify.app/', // replace with your Netlify URL
   methods: 'GET,POST',
 }));
 

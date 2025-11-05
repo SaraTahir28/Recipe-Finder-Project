@@ -1,7 +1,8 @@
 // -----------------------------
 // Backend URL
 // -----------------------------
-const backendUrl = "https://recipe-app.hosting.codeyourfuture.io"; // Replace with your Coolify URL
+const backendUrl = "https://ac80sgo8cw0wcswoscwsowck.hosting.codeyourfuture.io";
+
 
 // -----------------------------
 // State
