@@ -1,21 +1,14 @@
-// -----------------------------
-// Backend URL
-// -----------------------------
+
 const backendUrl = "https://ac80sgo8cw0wcswoscwsowck.hosting.codeyourfuture.io";
 
-
-// -----------------------------
 // State
-// -----------------------------
 let results = [] // stores current list of fetched recipes
 let favorites = [] // stores recipes user has saved
 let cachedRecipes = {} // avoids redundant API calls
 let nextPageUrl = null // tracks pagination
 let favoritesDiv = null // created when first favorite is saved
 
-// -----------------------------
 // DOM Elements
-// -----------------------------
 const ingredientInput = document.getElementById('ingredient')
 const dietDropDown = document.getElementById('diet')
 const caloriesFilter = document.getElementById("caloriesFilter")
@@ -24,9 +17,7 @@ const searchBtn = document.getElementById('searchBtn')
 const resultsDiv = document.getElementById('results')
 const loadMoreBtn = document.getElementById("loadMoreBtn")
 
-// -----------------------------
 // Filters
-// -----------------------------
 function applyFilters() {
   let filtered = [...results]
 
@@ -55,19 +46,16 @@ function applyFilters() {
     filtered.forEach(recipe => recipeCard(recipe))
   }
 }
-
-// -----------------------------
 // Search Button
-// -----------------------------
+
 searchBtn.addEventListener('click', () => {
   const ingredient = ingredientInput.value.trim()
   const diet = dietDropDown.value
   fetchRecipes(ingredient, diet)
 })
 
-// -----------------------------
 // Fetch Recipes
-// -----------------------------
+
 function fetchRecipes(ingredient, diet) {
   const queryKey = `${ingredient}_${diet}`
   resultsDiv.innerHTML = ""
@@ -84,7 +72,7 @@ function fetchRecipes(ingredient, diet) {
     return
   }
 
-  const url = `${backendUrl}/recipes?ingredient=${ingredient}&diet=${diet}` // UPDATED
+  const url = `${backendUrl}/recipes?ingredient=${encodeURIComponent(ingredient)}${diet ? `&filter=${encodeURIComponent(diet)}` : ""}`;
 
   fetch(url)
     .then(res => res.json())
@@ -114,9 +102,8 @@ function fetchRecipes(ingredient, diet) {
     })
 }
 
-// -----------------------------
 // Create Recipe Card
-// -----------------------------
+
 function createRecipeCard(recipe, mode = "results") {
   const card = document.createElement("div")
   card.classList.add("recipe")
@@ -177,10 +164,8 @@ function recipeCard(recipe) {
   const card = createRecipeCard(recipe, "results")
   resultsDiv.append(card)
 }
-
-// -----------------------------
 // Render Favorites
-// -----------------------------
+
 function renderFavorites() {
   let favoritesSection = document.getElementById("favorites-section")
   if (!favoritesSection) {
@@ -213,14 +198,13 @@ function renderFavorites() {
   })
 }
 
-// -----------------------------
 // Load More Recipes
-// -----------------------------
+
 loadMoreBtn.addEventListener("click", () => {
   if (!nextPageUrl) return
 
   const encodedUrl = encodeURIComponent(nextPageUrl)
-  const proxyUrl = `${backendUrl}/recipes/next?url=${encodedUrl}` // UPDATED
+  const proxyUrl = `${backendUrl}/recipes/next?url=${encodeURIComponent(nextPageUrl)}`; // UPDATED
 
   fetch(proxyUrl)
     .then(res => res.json())
@@ -234,9 +218,8 @@ loadMoreBtn.addEventListener("click", () => {
     .catch(err => console.error("Error loading more recipes:", err))
 })
 
-// -----------------------------
 // Footer
-// -----------------------------
+
 const footer = document.createElement("footer")
 footer.id = "app-footer"
 footer.innerHTML = `
