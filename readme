@@ -4,7 +4,7 @@ A web app that helps users discover recipes based on ingredients and dietary pre
 It fetches live data from the **Edamam Recipe Search API**, allowing users to explore, filter, and save their favorite recipes.  
 
 🚀 **Live Demo**  
-- **Frontend:** [Netlify Deployment](https://your-netlify-app.netlify.app)  
+- **Frontend:** [Netlify Deployment](https://st-recipefinder.netlify.app/)  
 - **Backend:** [Coolify Deployment](https://ac80sgo8cw0wcswoscwsowck.hosting.codeyourfuture.io)  
 
 ---
@@ -25,7 +25,7 @@ It fetches live data from the **Edamam Recipe Search API**, allowing users to ex
 
 **Frontend**
 - HTML, CSS, JavaScript (Vanilla JS)
-- Netlify (hosting + CI/CD)
+- Netlify (hosting)
 
 **Backend**
 - Node.js
