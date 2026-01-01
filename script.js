@@ -1,5 +1,5 @@
 
-const backendUrl = "https://ac80sgo8cw0wcswoscwsowck.hosting.codeyourfuture.io";
+const backendUrl = "https://lwgsggo8wgs8ksgkk4cw84ww.hosting.codeyourfuture.io/";
 
 // State
 let results = [] // stores current list of fetched recipes
