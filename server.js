@@ -9,10 +9,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Enable CORS for frontend
-app.use(cors({
-  origin: 'https://st-recipefinder.netlify.app', // replace with your Netlify URL
+app.use(cors());
+/*app.use(cors({
+  origin: 'https://st-recipefinder.netlify.app/', // replace with your Netlify URL
   methods: 'GET,POST',
-}));
+}));*/
 
  app.get('/recipes', async (req, res) => {
   const { ingredient, filter } = req.query;

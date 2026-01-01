@@ -1,6 +1,12 @@
 
-const backendUrl = "https://lwgsggo8wgs8ksgkk4cw84ww.hosting.codeyourfuture.io/";
+const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
 
+const backendUrl = isLocal
+  ? "http://localhost:3000"
+  : "https://ac80sgo8cw0wcswoscwsowck.hosting.codeyourfuture.io";
+
+
+// -----------------------------
 // State
 let results = [] // stores current list of fetched recipes
 let favorites = [] // stores recipes user has saved
