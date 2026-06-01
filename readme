@@ -24,7 +24,7 @@ It fetches live data from the **Edamam Recipe Search API**, allowing users to ex
 ## 🧰 Tech Stack
 
 **Frontend**
-- HTML, CSS, JavaScript (Vanilla JS)
+- HTML, CSS, Typescript
 - Netlify (hosting)
 
 **Backend**
